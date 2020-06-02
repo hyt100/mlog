@@ -62,11 +62,11 @@ class Thread : Noncopyable
  private:
   void setDefaultName();
   
-  bool started_;
-  bool joined_;
   ThreadFunc func_;
   string name_;
   CountDownLatch latch_;
+  bool started_;
+  bool joined_;
   pthread_t pthreadID_;
   pid_t pid_;
   

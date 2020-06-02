@@ -60,7 +60,7 @@ class Timestamp : public mlog::less_than_comparable<Timestamp>,
   string toFormattedString(bool showMicroseconds = true) const;
 
   // Gets time difference of two timestamps, result in seconds.
-  static double diffrence(Timestamp &hight, Timestamp &low)
+  static double diffrence(Timestamp hight, Timestamp low)
   {
     int64_t diff = hight.microSecondsSinceEpoch_ - low.microSecondsSinceEpoch_;
     return static_cast<double>(diff) / kMicroSecondsPerSecond;
@@ -72,12 +72,12 @@ class Timestamp : public mlog::less_than_comparable<Timestamp>,
   int64_t microSecondsSinceEpoch_;
 };
 
-inline bool operator<(Timestamp &left, Timestamp &right)
+inline bool operator<(const Timestamp &left, const Timestamp &right)
 {
   return left.microSecondsSinceEpoch() < right.microSecondsSinceEpoch();
 }
 
-inline bool operator==(Timestamp &left, Timestamp &right)
+inline bool operator==(const Timestamp &left, const Timestamp &right)
 {
   return left.microSecondsSinceEpoch() == right.microSecondsSinceEpoch();
 }

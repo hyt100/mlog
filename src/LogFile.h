@@ -64,12 +64,12 @@ class LogFile : Noncopyable
 
   static string getLogFileName(const string& basename, time_t* now);
   
-  std::unique_ptr<Mutex> mutexPtr_;
-  std::unique_ptr<File> filePtr_;
   const string basename_;
   const size_t rollSize_;
   const int flushInterval_;
   const int checkEveryN_;
+  std::unique_ptr<Mutex> mutexPtr_;
+  std::unique_ptr<File> filePtr_;
   time_t lastRoll_;
   time_t lastFlush_;
   time_t startOfPeriod_;

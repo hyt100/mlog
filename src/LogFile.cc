@@ -31,6 +31,7 @@
 using namespace mlog;
 
 File::File(StringArg filename)
+  : writtenBytes_(0)
 {
   fp_ = ::fopen(filename.c_str(), "ae");  // 'e' for O_CLOEXEC
   if (fp_)

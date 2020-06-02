@@ -74,8 +74,8 @@ class AsyncLogging : Noncopyable
   std::atomic<bool> running_;
   const string basename_;
   const off_t rollSize_;
-  mlog::CountDownLatch latch_;
   mlog::Thread thread_;
+  mlog::CountDownLatch latch_;
   mlog::Mutex mutex_;
   mlog::Condition cond_;
   BufferPtr currentBuffer_;

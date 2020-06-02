@@ -52,7 +52,7 @@ class FixedBuffer : Noncopyable
 
   void append(const char *buf, size_t len)
   {
-    if (available() > len)
+    if (available() > static_cast<int>(len))
     {
       memcpy(cur_, buf, len);
       cur_ += len;
