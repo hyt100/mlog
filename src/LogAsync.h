@@ -35,7 +35,7 @@ class AsyncLogging : Noncopyable
  public:
 
   AsyncLogging(const string& basename,
-               off_t rollSize,
+               off_t rollSize = 8192,
                int flushInterval = 3);
 
   ~AsyncLogging()

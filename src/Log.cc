@@ -27,7 +27,9 @@
 #include <time.h>
 #include <assert.h>
 
-
+using std::placeholders::_1;
+using std::placeholders::_2;
+using std::placeholders::_3;
 using namespace mlog;
 
 namespace mlog
@@ -178,5 +180,17 @@ void Logger::Impl::formatTime()
   stream_ << T(t_time, 17) << T(us.data(), 8);
 }
 
+LogServer::LogServer(const char *filename, LogLevel level)
+  : asyncLogging_(filename)
+{
+  asyncLogging_.start();
+  mlog::Logger::setOutput(std::bind(&AsyncLogging::append, &asyncLogging_, _1, _2));
+  mlog::Logger::setLogLevel(level);
+}
+
+LogServer::~LogServer()
+{
+  mlog::Logger::setOutput(defaultOutput);
+}
 
 }//namespace mlog

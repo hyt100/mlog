@@ -23,6 +23,8 @@
 #define __MLOG_LOG_H__
 #include "LogTimestamp.h"
 #include "LogStream.h"
+#include "LogAsync.h"
+#include <functional>
 
 namespace mlog {
 
@@ -40,8 +42,8 @@ class Logger
     NUM_LOG_LEVELS,
   };
 
-  typedef void (*OutputFunc)(const char* msg, int len);
-  typedef void (*FlushFunc)();
+  typedef std::function<void (const char* msg, int len)> OutputFunc;
+  typedef std::function<void ()> FlushFunc;
 
   // compile time calculation of basename of source file
   class SourceFile
@@ -109,6 +111,19 @@ class Logger
   static OutputFunc outputFunc_;
   static LogLevel logLevel_;
   static FlushFunc flushFunc_;
+};
+
+class LogServer
+{
+ public:
+  typedef mlog::Logger::LogLevel LogLevel;
+  
+  LogServer(const char *filename, LogLevel level = mlog::Logger::WARN);
+  
+  ~LogServer();
+  
+ private:
+  AsyncLogging asyncLogging_;
 };
 
 //avoid dangling else: www.drdobbs.com/cpp/201804215
