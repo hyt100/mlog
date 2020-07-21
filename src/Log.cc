@@ -206,7 +206,6 @@ LogServer::LogServer(const char *filename, LogLevel level)
 LogServer::~LogServer()
 {
   mlog::Logger::setOutput(defaultOutput);
-  delete instance_;
 }
 
 }//namespace mlog
