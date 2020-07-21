@@ -180,10 +180,25 @@ void Logger::Impl::formatTime()
   stream_ << T(t_time, 17) << T(us.data(), 8);
 }
 
+LogServer* LogServer::instance_ = nullptr;
+
+LogServer* LogServer::Instance(const char *filename, LogLevel level)
+{
+  if (instance_ == nullptr)
+  {
+    instance_ = new LogServer(filename, level);
+  }
+  return instance_;
+}
+
+void LogServer::start()
+{
+  asyncLogging_.start();
+}
+
 LogServer::LogServer(const char *filename, LogLevel level)
   : asyncLogging_(filename)
 {
-  asyncLogging_.start();
   mlog::Logger::setOutput(std::bind(&AsyncLogging::append, &asyncLogging_, _1, _2));
   mlog::Logger::setLogLevel(level);
 }
@@ -191,6 +206,7 @@ LogServer::LogServer(const char *filename, LogLevel level)
 LogServer::~LogServer()
 {
   mlog::Logger::setOutput(defaultOutput);
+  delete instance_;
 }
 
 }//namespace mlog
