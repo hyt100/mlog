@@ -4,7 +4,9 @@
 
 int main(int argc, char *argv[])
 {
-  mlog::LogServer logServer("log/xxx", mlog::Logger::TRACE);
+  mlog::LogServer* log = mlog::LogServer::Instance("xxx", mlog::Logger::TRACE);
+  log->start();
+
   mlog::sleepUsec(1*1000*1000);
   
   for (int i = 0; i<10; ++i)

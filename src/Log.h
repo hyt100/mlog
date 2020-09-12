@@ -117,12 +117,17 @@ class LogServer
 {
  public:
   typedef mlog::Logger::LogLevel LogLevel;
-  
-  LogServer(const char *filename, LogLevel level = mlog::Logger::WARN);
-  
-  ~LogServer();
+
+  //signleton
+  static LogServer* Instance(const char *filename, LogLevel level = mlog::Logger::WARN);
+  void start();
+  virtual ~LogServer();
   
  private:
+  LogServer(const char *filename, LogLevel level);
+  
+ private:
+  static LogServer *instance_;
   AsyncLogging asyncLogging_;
 };
 
