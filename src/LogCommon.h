@@ -22,7 +22,9 @@
 #ifndef __MLOG_LOGCOMMON_H__
 #define __MLOG_LOGCOMMON_H__
 #include <pthread.h>
+#include <string.h>
 #include <string>
+#include <algorithm>
 
 namespace mlog {
 
@@ -157,7 +159,6 @@ class CountDownLatch : Noncopyable
   int count_ ;
 };
 
-
 // For passing C-style string argument to a function.
 class StringArg
 {
@@ -174,6 +175,34 @@ class StringArg
 
  private:
   const char* str_;
+};
+
+class FilenameArg
+{
+ public:
+  FilenameArg(StringArg arg)
+  {
+    const char *slash = strrchr(arg.c_str(), '/');
+    if (NULL == slash)
+    {
+      strcpy(path_, ".");
+      strncpy(name_, arg.c_str(), sizeof name_ - 1);
+    }
+    else
+    {
+      int path_len = std::min(static_cast<size_t>(slash - arg.c_str() + 1), sizeof path_ - 1);
+      int name_len = std::min(strlen(slash), sizeof name_ - 1);
+      strncpy(path_, arg.c_str(), path_len);
+      strncpy(name_, slash, name_len);
+    }
+  }
+
+  const char* get_path() const { return path_; }
+  const char* get_name() const { return name_; }
+
+ private:
+  char path_[512];
+  char name_[512];
 };
 
 void sleepUsec(int64_t usec); 

@@ -18,9 +18,15 @@ add_library(mlog
 		src/LogThread.h
 		src/LogTimestamp.cc
 		src/LogTimestamp.h
+		src/LogRotate.cc
+		src/LogRotate.h
 	)
 
 add_executable(demo example/demo.cc)
 target_link_libraries(demo mlog)
 #target_link_libraries(demo rt)
 target_link_libraries(demo pthread)
+
+add_executable(demo_rotate example/demo_rotate.cc)
+target_link_libraries(demo_rotate mlog)
+target_link_libraries(demo_rotate pthread)

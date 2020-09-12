@@ -4,7 +4,7 @@
 
 int main(int argc, char *argv[])
 {
-  mlog::LogServer logServer("xxx", mlog::Logger::TRACE);
+  mlog::LogServer logServer("log/xxx", mlog::Logger::TRACE);
   mlog::sleepUsec(1*1000*1000);
   
   for (int i = 0; i<10; ++i)
